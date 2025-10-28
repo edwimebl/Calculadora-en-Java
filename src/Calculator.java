@@ -130,6 +130,8 @@ public class Calculator {
                                     displayLabel.setText(removeZeroDecimal(numA * numB));
                                 } else if (operator == "/") {
                                     displayLabel.setText(removeZeroDecimal(numA / numB));
+                                } else if (operator == "√") {
+                                    displayLabel.setText(removeZeroDecimal(numA ));                                     
                                 }
                                 clearAll();
                             }
@@ -169,6 +171,32 @@ public class Calculator {
                         if (buttonValue == ".") {
                             if (!displayLabel.getText().contains(buttonValue)) {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
+                            } 
+                        } else if (buttonValue.equals("√")) {
+                            String currentText = displayLabel.getText();
+
+                            try {
+                                double numberDisplay = Double.parseDouble(currentText);
+
+                                if (numberDisplay >= 0) {
+                                    // 1. Calcular la raíz cuadrada
+                                    numberDisplay = Math.sqrt(numberDisplay);
+
+                                    // 2. Mostrar el resultado
+                                    displayLabel.setText(removeZeroDecimal(numberDisplay));
+
+                                    // 3. Limpiar variables de operación binaria si es necesario
+                                    // Aunque es unario, si está en medio de un cálculo, es mejor resetear.
+                                    clearAll();
+
+                                } else {
+                                    // Manejo de error si es negativo
+                                    displayLabel.setText("Error");
+                                    clearAll();
+                                }
+                            } catch (NumberFormatException ex) {
+                                displayLabel.setText("Error");
+                                clearAll();
                             }
                         }
                         // Lógica para manejar los botones numéricos
@@ -202,7 +230,7 @@ public class Calculator {
         } else {
             return Double.toString(numberDisplay);
         }
-        
+
     }
 
 }
